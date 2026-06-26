@@ -3,15 +3,15 @@ import { useState } from 'react';
 
 export default function Chat() {
   const [input, setInput] = useState('');
-  const [messages, setMessages] = useState<{role: string, content: string}[]>([]);
+  const [messages, setMessages] = useState<{ role: string, content: string }[]>([]);
 
   const sendMessage = async () => {
     if (!input.trim()) return;
-    
+
     const newMessages = [...messages, { role: 'user', content: input }];
     setMessages(newMessages);
     setInput('');
-    
+
     try {
       const res = await fetch('/api/chat', {
         method: 'POST',
@@ -40,17 +40,17 @@ export default function Chat() {
       <div className="border p-4 h-96 overflow-y-auto mb-4 bg-gray-50">
         {messages.map((m, i) => (
           <div key={i} className={`mb-2 ${m.role === 'user' ? 'text-right' : 'text-left'}`}>
-            <span className={`inline-block p-2 rounded ${m.role === 'user' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}>
+            <span className={`inline-block p-2 rounded ${m.role === 'user' ? 'bg-blue-500 text-white' : 'bg-gray-800 text-white'}`}>
               {m.content}
             </span>
           </div>
         ))}
       </div>
       <div className="flex gap-2">
-        <input 
+        <input
           className="border p-2 flex-grow"
-          value={input} 
-          onChange={(e) => setInput(e.target.value)} 
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
           placeholder="Ask a coding question..."
         />
         <button onClick={sendMessage} className="bg-blue-500 text-white p-2">Send</button>

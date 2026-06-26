@@ -33,6 +33,13 @@ export async function POST(req: Request) {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
+            systemInstruction: {
+              parts: [
+                {
+                  text: "You are a coding instructor. You must only answer coding-related questions. If a question is not related to coding, reply such as you can only answer coding-related questions."
+                }
+              ]
+            },
             contents: [
               {
                 parts: [
@@ -61,7 +68,7 @@ export async function POST(req: Request) {
 
       const text = await gemRes.text();
       let parsed: any = null;
-      try { parsed = JSON.parse(text); } catch {}
+      try { parsed = JSON.parse(text); } catch { }
 
       if (!gemRes.ok) {
         const errMessage = parsed?.error?.message || parsed?.error || parsed?.message || text || 'Gemini request failed';
